@@ -188,7 +188,7 @@ export default function Hero() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="mt-10 max-w-xl text-gray-400 text-xl font-light tracking-wide"
         >
-          Tecnólogo en Análisis y Desarrollo de Software
+          Análisis y Desarrollo de Software
         </motion.p>
 
         {/* Botón CTA minimalista */}
