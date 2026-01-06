@@ -215,19 +215,42 @@ export default function Contact() {
           </a>
         </div>
 
-        {/* Footer simple */}
-        <div className="text-center pt-8 border-t border-white/5">
-          <div className="inline-flex flex-col items-center gap-6">
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-              </span>
-              <span className="text-sm text-green-400 font-medium tracking-wide">
-                Disponible ahora para trabajar
-              </span>
+        {/* Nuevo Status Widget: Live & Modern */}
+        <div className="flex justify-center pt-12 border-t border-white/5">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative group"
+          >
+            {/* Background Glow Effect */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400/20 to-orange-500/0 rounded-full blur group-hover:blur-md transition-all duration-500 opacity-50" />
+
+            <div className="relative px-8 py-4 bg-gray-900/40 backdrop-blur-xl border border-white/5 rounded-full flex items-center gap-5 shadow-2xl">
+              {/* Live Signal Indicator */}
+              <div className="relative flex items-center justify-center w-4 h-4">
+                <div className="absolute inset-0 bg-yellow-400/40 rounded-full animate-ping scale-150" />
+                <div className="absolute inset-0 bg-yellow-400/20 rounded-full animate-pulse scale-200" />
+                <div className="w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_12px_rgba(250,204,21,0.8)] z-10" />
+              </div>
+
+              <div className="flex flex-col text-left">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-yellow-400 font-bold leading-none mb-1.5">
+                  Estado Actual
+                </span>
+                <span className="text-sm md:text-base text-gray-300 font-medium tracking-wide">
+                  Abierto a nuevos desafíos & <span className="text-white">oportunidades</span>
+                </span>
+              </div>
+
+              {/* Techy Decoration */}
+              <div className="hidden md:flex ml-4 pl-4 border-l border-white/10 items-center gap-2">
+                <div className="w-1 h-1 rounded-full bg-white/20"></div>
+                <div className="w-1 h-1 rounded-full bg-white/40"></div>
+                <div className="w-1 h-1 rounded-full bg-white/20"></div>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
       </motion.div>
