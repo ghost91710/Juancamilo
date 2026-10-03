@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import {
     FaReact, FaNodeJs, FaJs, FaGitAlt, FaHtml5, FaCss3Alt, FaFigma
 } from "react-icons/fa";
@@ -25,7 +25,7 @@ export default function SkillsMarquee() {
             <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-black via-black/80 to-transparent" />
 
             <div className="flex">
-                <motion.div
+                <Motion.div
                     initial={{ x: 0 }}
                     animate={{ x: "-50%" }}
                     transition={{
@@ -44,7 +44,7 @@ export default function SkillsMarquee() {
                             </span>
                         </div>
                     ))}
-                </motion.div>
+                </Motion.div>
             </div>
         </section>
     );

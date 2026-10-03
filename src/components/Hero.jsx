@@ -1,5 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion as Motion, useScroll, useTransform } from "framer-motion";
 import { FaCode } from "react-icons/fa";
 
 export default function Hero() {
@@ -32,7 +31,7 @@ export default function Hero() {
       className="min-h-screen flex items-center px-8 md:px-20 relative overflow-hidden bg-black"
     >
       {/* Fondo Parallax - Capa Profunda */}
-      <motion.div
+      <Motion.div
         style={{ y: yBackground }}
         className="absolute inset-0 bg-black z-0"
       >
@@ -65,7 +64,7 @@ export default function Hero() {
 
           {/* Formas flotantes sutiles con movimiento independiente */}
           {[...Array(3)].map((_, i) => (
-            <motion.div
+            <Motion.div
               key={i}
               className="absolute rounded-full"
               style={{
@@ -88,41 +87,41 @@ export default function Hero() {
             />
           ))}
         </div>
-      </motion.div>
+      </Motion.div>
 
 
 
       {/* TECH CORE VISUAL - Derecha */}
-      <motion.div
+      <Motion.div
         style={{ y: yVisual, opacity: opacityHero }}
         className="absolute right-[5%] md:right-[10%] top-1/2 -translate-y-1/2 z-10 hidden lg:block pointer-events-none"
       >
         <div className="relative w-[500px] h-[500px] flex items-center justify-center">
 
           {/* Anillo Exterior - Lento */}
-          <motion.div
+          <Motion.div
             className="absolute inset-0 rounded-full border border-amber-500/10 border-dashed"
             animate={{ rotate: 360 }}
             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
           />
-          <motion.div
+          <Motion.div
             className="absolute inset-4 rounded-full border border-amber-300/5"
             animate={{ rotate: -360 }}
             transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
           />
 
           {/* Anillo de Partículas Orbitando */}
-          <motion.div
+          <Motion.div
             className="absolute w-[400px] h-[400px]"
             animate={{ rotate: 360 }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
           >
             <div className="absolute top-0 left-1/2 w-3 h-3 bg-amber-400/50 rounded-full blur-[1px] shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
             <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-amber-600/50 rounded-full blur-[1px]" />
-          </motion.div>
+          </Motion.div>
 
           {/* Anillo Medio - Giroscopio 1 */}
-          <motion.div
+          <Motion.div
             className="absolute w-[300px] h-[300px] rounded-full border border-amber-400/20"
             style={{ borderTopColor: 'transparent', borderBottomColor: 'transparent' }}
             animate={{ rotate: 360, rotateX: 45, rotateY: 30 }}
@@ -130,7 +129,7 @@ export default function Hero() {
           />
 
           {/* Anillo Interno - Giroscopio 2 */}
-          <motion.div
+          <Motion.div
             className="absolute w-[200px] h-[200px] rounded-full border-2 border-amber-300/30"
             style={{ borderLeftColor: 'transparent', borderRightColor: 'transparent' }}
             animate={{ rotate: -360, rotateX: -30, rotateY: 45 }}
@@ -138,7 +137,7 @@ export default function Hero() {
           />
 
           {/* NÚCLEO CENTRAL */}
-          <motion.div
+          <Motion.div
             className="relative w-24 h-24 bg-gradient-to-br from-amber-400/20 to-amber-600/10 rounded-full backdrop-blur-md border border-amber-400/50 flex items-center justify-center shadow-[0_0_50px_rgba(251,191,36,0.2)]"
             animate={{
               scale: [1, 1.1, 1],
@@ -151,15 +150,15 @@ export default function Hero() {
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <FaCode className="text-4xl text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
-          </motion.div>
+          </Motion.div>
 
         </div>
-      </motion.div>
+      </Motion.div>
 
       {/* Contenido Foreground - Capa Frontal */}
       <div className="max-w-6xl relative z-10 w-full">
-        <motion.div style={{ y: yTitle }}>
-          <motion.h1
+        <Motion.div style={{ y: yTitle }}>
+          <Motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -169,11 +168,11 @@ export default function Hero() {
             <span className="bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent block mt-2">
               GONZÁLEZ MUÑOZ
             </span>
-          </motion.h1>
-        </motion.div>
+          </Motion.h1>
+        </Motion.div>
 
         {/* Línea decorativa */}
-        <motion.div
+        <Motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -181,7 +180,7 @@ export default function Hero() {
         />
 
         {/* Descripción */}
-        <motion.p
+        <Motion.p
           style={{ y: ySubtitle }}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -189,10 +188,10 @@ export default function Hero() {
           className="mt-10 max-w-xl text-gray-400 text-xl font-light tracking-wide"
         >
           Análisis y Desarrollo de Software
-        </motion.p>
+        </Motion.p>
 
         {/* Botón CTA minimalista */}
-        <motion.a
+        <Motion.a
           href="#projects"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -203,7 +202,7 @@ export default function Hero() {
             Ver Proyectos
           </span>
           <span className="w-8 h-px bg-yellow-400 group-hover:w-16 transition-all duration-300 bg-gradient-to-r from-yellow-400 to-transparent"></span>
-        </motion.a>
+        </Motion.a>
       </div>
     </section>
   );

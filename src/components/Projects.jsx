@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion as Motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import {
   FaArrowRight,
@@ -69,20 +69,20 @@ export default function Projects() {
     >
       {/* Fondo parallax mejorado */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div
+        <Motion.div
           style={{ y: bgY1 }}
           className="absolute top-0 left-0 w-[1000px] h-[1000px] bg-yellow-500/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"
         />
-        <motion.div
+        <Motion.div
           style={{ y: bgY2 }}
           className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3"
         />
       </div>
 
       {/* Encabezado con parallax */}
-      <motion.div
+      <Motion.div
         ref={titleRef}
-        style={{ opacity: titleOpacity, scale: containerScale }}
+        style={{ y: titleY, opacity: titleOpacity, scale: containerScale }}
         className="max-w-7xl mx-auto mb-12 md:mb-24 relative z-10"
       >
         <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-6">
@@ -90,7 +90,7 @@ export default function Projects() {
           <br />
           <span className="text-yellow-400 font-normal">destacados</span>
         </h2>
-      </motion.div>
+      </Motion.div>
 
       {/* Lista de proyectos */}
       <div className="max-w-7xl mx-auto relative z-10">
@@ -149,19 +149,16 @@ function ProjectCard({ project, index }) {
     const video = videoRef.current;
     if (!video) return;
 
-    if (isHovered && !isPlaying) {
+    if (isHovered) {
       const timeout = setTimeout(() => {
-        video.play().then(() => setIsPlaying(true)).catch(console.log);
+        video.play().catch(console.log);
       }, 300);
 
       return () => clearTimeout(timeout);
-    } else if (!isHovered && isPlaying) {
-      if (!isFullscreen) {
-        video.pause();
-        setIsPlaying(false);
-      }
+    } else if (!isFullscreen) {
+      video.pause();
     }
-  }, [isHovered, isPlaying, isFullscreen, isMobile]);
+  }, [isHovered, isFullscreen, isMobile]);
 
   const togglePlay = async () => {
     if (isMobile) {
@@ -175,10 +172,8 @@ function ProjectCard({ project, index }) {
     try {
       if (video.paused) {
         await video.play();
-        setIsPlaying(true);
       } else {
         video.pause();
-        setIsPlaying(false);
       }
     } catch (error) {
       console.log("Play/pause error:", error);
@@ -195,7 +190,6 @@ function ProjectCard({ project, index }) {
         setIsFullscreen(true);
         if (!isPlaying) {
           await video.play();
-          setIsPlaying(true);
         }
       } else {
         await document.exitFullscreen();
@@ -239,7 +233,7 @@ function ProjectCard({ project, index }) {
 
   return (
     <>
-      <motion.div
+      <Motion.div
         ref={containerRef}
         style={{ y, opacity, scale }}
         initial={{ opacity: 0, y: 100 }}
@@ -336,6 +330,8 @@ function ProjectCard({ project, index }) {
                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                 onClick={togglePlay}
                 onDoubleClick={toggleFullscreen}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
               />
 
               {/* Overlay de controles en Desktop */}
@@ -391,19 +387,19 @@ function ProjectCard({ project, index }) {
             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-t from-yellow-400/10 to-transparent rounded-full blur-3xl -z-10" />
           </div>
         </div>
-      </motion.div>
+      </Motion.div>
 
       {/* Modal móvil */}
       <AnimatePresence>
         {showVideoModal && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4"
             onClick={closeVideoModal} // Cerrar al tocar fondo
           >
-            <motion.div
+            <Motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -439,10 +435,10 @@ function ProjectCard({ project, index }) {
               >
                 <FaTimes />
               </button>
-            </motion.div>
+            </Motion.div>
 
             <p className="mt-8 text-gray-500 text-sm animate-pulse">Toca fuera para cerrar</p>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
     </>

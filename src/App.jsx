@@ -24,13 +24,11 @@ function Sparkle() { return <svg className="icon-sparkle" viewBox="0 0 24 24" fi
 function Brand() {
   return <a className="wordmark" href="#inicio" aria-label="Juan Camilo, volver al inicio">
     <svg className="brand-symbol" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      {/* Monograma JC original: trazos caligráficos dentro de un sello abierto. */}
-      <path className="brand-frame" d="M24 4 5 5 4 59 59 60 60 5 40 4" stroke="currentColor" strokeWidth="2.5" />
-      <g fill="currentColor">
-        <path d="m14 16 36-3-3 7-34 1Z" />
-        <path d="m37 25 15-2-3 6-9 1-1 15 13-2-3 7-16 1Z" />
-        <path d="m23 22 7-1-2 27-9 7-7-7 9 1Z" />
-        <path d="m28 8 5-1 1 4-5 1Z" />
+      {/* Monograma modular JC: ambas iniciales comparten el trazo central. */}
+      <g className="brand-monogram" stroke="currentColor" strokeWidth="5" strokeLinecap="square" strokeLinejoin="miter">
+        <path d="M9 10h23v33c0 8-5 12-13 12H9V45" />
+        <path d="M55 20V10H44c-8 0-12 5-12 13v19c0 8 5 13 13 13h10V45" />
+        <path className="brand-accent" d="M20 10v10M45 32h10" strokeWidth="2.5" />
       </g>
     </svg>
     <span className="brand-name">camilo<span className="brand-role">DESARROLLADOR</span></span>
@@ -77,7 +75,15 @@ export default function App() {
       </div>
       <section className="work section-wrap" id="projects">
         <div className="section-heading"><div><p className="eyebrow">01 / TRABAJO SELECCIONADO</p><h2>Del código<br/>a la <em>realidad.</em></h2></div><p>Ideas convertidas en aplicaciones.<br/>Explora lo que he estado construyendo.</p></div>
-        <div className="project-stack">{projects.map(project => <article className="project-card" key={project.number} style={{ '--project-index': Number(project.number) - 1 }}>
+        <div className="project-stack">{projects.map((project, index) => <article
+          className="project-card"
+          key={project.number}
+          style={{
+            '--project-sticky-mobile': `${12 + index * 12}px`,
+            '--project-sticky-desktop': `${25 + index * 20}px`,
+            '--project-layer': index + 1,
+          }}
+        >
           <div className="project-top eyebrow"><span>{project.category}</span><span>PROYECTO / {project.number}</span></div>
           <div className="project-layout"><div className="project-info"><h3>{project.name}</h3>{project.status && <span className="project-status"><i />{project.status}</span>}<p>{project.description}</p><ul className="tags">{project.tech.map(tech => <li key={tech}>{tech}</li>)}</ul><a className="project-link" href={project.url} target="_blank" rel="noreferrer">Explorar proyecto <Arrow /></a></div><div className="project-preview"><div className="browser-bar" aria-hidden="true"><span className="browser-dots"><i /><i /><i /></span><span>{project.previewLabel}</span><Arrow /></div><video controls playsInline preload="none" poster={project.poster} aria-label={project.number === '01' ? 'Recorrido por Inicio, Buscar, Batallas y Ranking de Auraverse' : `Vista previa de ${project.name}`} src={`${project.video}#t=0.1`} /><p className="preview-caption">{project.number === '01' ? 'INICIO · BUSCAR · BATALLAS · RANKING' : 'DALE PLAY Y MÍRALO EN ACCIÓN'} <PlayIcon /></p></div></div>
         </article>)}</div>

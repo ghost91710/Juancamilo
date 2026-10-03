@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion as Motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import {
   FaGithub,
   FaLinkedin,
@@ -18,8 +18,6 @@ import cv from "../assets/cv-JuanCamiloGonzalez.pdf";
 
 export default function Contact() {
   const containerRef = useRef();
-  const [hoveredCard, setHoveredCard] = useState(null);
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -33,7 +31,10 @@ export default function Contact() {
     const email = "camilo9171" + String.fromCharCode(64) + "gmail.com";
     const subject = "Oportunidad laboral - Portafolio Juan Camilo";
     const body = "Hola Juan Camilo,\n\nVi tu portafolio y me interesa hablar contigo sobre una oportunidad laboral.\n\nSaludos,";
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(
+      `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+      "_self"
+    );
   };
 
   const handleWhatsAppClick = (e) => {
@@ -106,14 +107,14 @@ export default function Contact() {
     >
       {/* Elementos de fondo sutiles - Menos intensos que antes */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div
+        <Motion.div
           animate={{ opacity: [0.1, 0.3, 0.1] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-gray-900/20 via-black to-black"
         />
       </div>
 
-      <motion.div
+      <Motion.div
         style={{ y, opacity }}
         className="max-w-6xl mx-auto relative z-10"
       >
@@ -141,7 +142,7 @@ export default function Contact() {
         {/* Grid de opciones - Estilo con GLOW moderno */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
           {contactOptions.map((option) => (
-            <motion.div
+            <Motion.div
               key={option.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -199,7 +200,7 @@ export default function Contact() {
                   })}
                 </div>
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
 
@@ -217,7 +218,7 @@ export default function Contact() {
 
         {/* Nuevo Status Widget: Live & Modern */}
         <div className="flex justify-center pt-12 border-t border-white/5">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -250,10 +251,10 @@ export default function Contact() {
                 <div className="w-1 h-1 rounded-full bg-white/20"></div>
               </div>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
 
-      </motion.div>
+      </Motion.div>
     </section>
   );
 }

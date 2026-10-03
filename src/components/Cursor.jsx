@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import { motion as Motion, useMotionValue } from 'framer-motion';
 
 export default function Cursor() {
     const [isHovered, setIsHovered] = useState(false);
@@ -47,12 +47,12 @@ export default function Cursor() {
             window.removeEventListener('mousemove', moveCursor);
             window.removeEventListener('mouseover', handleMouseOver);
         };
-    }, []);
+    }, [mouseX, mouseY]);
 
     if (!isVisible) return null;
 
     return (
-        <motion.div
+        <Motion.div
             className="fixed top-0 left-0 w-4 h-4 rounded-full bg-yellow-400 pointer-events-none z-[9999] mix-blend-difference"
             style={{
                 x: mouseX,
