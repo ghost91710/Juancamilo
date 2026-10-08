@@ -73,6 +73,18 @@ export default function App() {
   const pageRef = useRef(null);
 
   useEffect(() => {
+    const cards = pageRef.current.querySelectorAll('.project-card');
+    // Tall cards must scroll to their bottom before the next card covers them.
+    const observer = new ResizeObserver((entries) => {
+      entries.forEach(({ target }) => {
+        target.style.setProperty('--project-height', `${target.getBoundingClientRect().height}px`);
+      });
+    });
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const targets = pageRef.current.querySelectorAll('.section-heading, .project-layout, .about > div, .contact-title');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
