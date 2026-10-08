@@ -487,6 +487,6 @@ nav .nav-contact{border:none;
 .project-context>div{display:grid;grid-template-columns:75px 1fr;gap:12px}
 .project-context dt{padding-top:3px;font-family:monospace;font-size:9px;letter-spacing:.7px;color:var(--yellow)}
 .project-context dd{margin:0;color:#c0bfb2;font-size:12px;line-height:1.5}
-@media(max-width:500px){.project-card{position:relative;top:auto!important}.project-context>div{grid-template-columns:68px 1fr;gap:8px}}
+@media(max-width:500px){.project-context>div{grid-template-columns:68px 1fr;gap:8px}}
 @media(max-width:500px){.contact-word-measure.is-long,.contact-word-long{font-size:.55em}}
 @media(max-width:500px),(pointer:coarse){.ticker{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}.ticker::-webkit-scrollbar{display:none}.ticker>div{animation:none}}
