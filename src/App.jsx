@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import Character from './components/Character';
 import videoStore from './assets/video1.1.mp4';
 import videoBudget from './assets/video2.1.mp4';
 import videoAuraverse from './assets/video-auraverse.mp4';
@@ -67,38 +68,25 @@ function Brand() {
   </a>;
 }
 
-function Character() {
-  const [wink, setWink] = useState(false);
-  return <button className={`character ${wink ? 'is-winking' : ''}`} aria-label="Saludar al personaje" aria-pressed={wink} onClick={() => setWink(!wink)}>
-    <svg viewBox="0 0 320 340" fill="none" aria-hidden="true">
-      <ellipse cx="163" cy="318" rx="93" ry="10" fill="currentColor" opacity=".12" />
-      <g stroke="#151515" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M123 242L115 295 83 304Q76 317 96 316L128 314 146 249M189 243L206 297 237 305Q247 317 227 317L195 313 169 249" fill="#f6df24" />
-        <path d="M83 152Q35 175 44 221M231 151Q273 156 282 115M272 124L267 100M280 119L285 94M285 126L300 107" />
-        <path d="M46 216Q30 206 28 221L33 239M43 223L46 244M51 219L57 237" />
-        <rect x="77" y="54" width="164" height="202" rx="75" fill="#f6df24" transform="rotate(-9 159 155)" />
-        <path d="M124 176Q151 199 179 169" />
-      </g>
-      <g className="character-eyes" fill="#151515"><ellipse cx="123" cy="128" rx="10" ry="24" transform="rotate(-9 123 128)"/><ellipse className="wink-eye" cx="169" cy="121" rx="10" ry="24" transform="rotate(-9 169 121)"/></g>
-      <path d="M201 33L207 13M220 42L237 28M224 60L248 59" stroke="#f6df24" strokeWidth="5" strokeLinecap="round"/>
-    </svg>
-    <span className="character-note">Un poco de código.<br/>Mucha curiosidad.</span>
-  </button>;
-}
 
 export default function App() {
-  const tickerRef = useRef(null);
-  const firstTickerGroupRef = useRef(null);
+  const pageRef = useRef(null);
 
   useEffect(() => {
-    const mobile = window.matchMedia('(max-width: 500px), (pointer: coarse)');
-    const positionTicker = () => {
-      if (!tickerRef.current) return;
-      tickerRef.current.scrollLeft = mobile.matches ? firstTickerGroupRef.current?.offsetWidth ?? 0 : 0;
-    };
-    positionTicker();
-    mobile.addEventListener('change', positionTicker);
-    return () => mobile.removeEventListener('change', positionTicker);
+    const targets = pageRef.current.querySelectorAll('.section-heading, .project-layout, .about > div, .contact-title');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    targets.forEach((target) => {
+      target.classList.add('reveal');
+      observer.observe(target);
+    });
+    return () => observer.disconnect();
   }, []);
 
   return <>
@@ -107,15 +95,15 @@ export default function App() {
       <Brand />
       <nav aria-label="Navegación principal"><a href="#projects">Proyectos <span>{String(projects.length).padStart(2, '0')}</span></a><a href="#about">Sobre mí</a><a className="nav-contact" href="#contact">Hablemos <Arrow /></a></nav>
     </header>
-    <main>
+    <main ref={pageRef}>
       <section className="hero" id="inicio">
         <div className="hero-top eyebrow"><span>JUAN CAMILO GONZÁLEZ MUÑOZ</span><span className="availability"><i /> ABIERTO A OPORTUNIDADES</span></div>
-        <h1>Ideas que se<br/>vuelven <span className="web-word">web<svg viewBox="0 0 410 25" preserveAspectRatio="none" aria-hidden="true"><path d="M5 17Q177 -3 401 11M36 23Q197 5 375 20" /></svg></span><span className="period">.</span></h1>
-        <div className="hero-bottom"><div className="hero-copy"><p>Desarrollador de software.<br/>Construyo experiencias digitales que<br className="desktop-break"/> se ven bien y resuelven problemas reales.</p><a className="pill yellow" href="#projects">Explora mi trabajo <DownArrow /></a></div><Character /></div>
-        <div className="hero-foot eyebrow"><span>DESARROLLO WEB & UN TOQUE DE PERSONALIDAD</span><a href="#projects">SIGUE EXPLORANDO <DownArrow /></a></div>
+        <h1>Ideas que se<br/>vuelven <span className="software-word">software<svg viewBox="0 0 410 25" preserveAspectRatio="none" aria-hidden="true"><path d="M5 17Q177 -3 401 11M36 23Q197 5 375 20" /></svg></span><span className="period">.</span></h1>
+        <div className="hero-bottom"><div className="hero-copy"><p>Desarrollador de software.<br/>Me mueve resolver problemas complejos. <br className="desktop-break"/>Conecto lógica, datos e interfaces para <br className="desktop-break"/>construir software que tenga sentido.</p><a className="pill yellow" href="#projects">Explora mi trabajo <DownArrow /></a></div><Character /></div>
+        <div className="hero-foot eyebrow"><span>SOFTWARE, CURIOSIDAD & UN TOQUE DE PERSONALIDAD</span><a href="#projects">SIGUE EXPLORANDO <DownArrow /></a></div>
       </section>
-      <div ref={tickerRef} className="ticker" role="img" aria-label={`Tecnologías: ${technologies.join(', ')}`}>
-        <div aria-hidden="true">{[0, 1].map(copy => <span className="ticker-group" ref={copy === 0 ? firstTickerGroupRef : undefined} key={copy}>
+      <div className="ticker" role="img" aria-label={`Tecnologías: ${technologies.join(', ')}`}>
+        <div aria-hidden="true">{[0, 1].map(copy => <span className="ticker-group" key={copy}>
           {technologies.map(technology => <span className="ticker-item" key={technology}>{technology.toUpperCase()} <Sparkle /></span>)}
         </span>)}</div>
       </div>
@@ -134,7 +122,7 @@ export default function App() {
           <div className="project-layout"><div className="project-info"><h3>{project.name}</h3>{project.status && <span className="project-status"><i />{project.status}</span>}<p>{project.description}</p><dl className="project-context"><div><dt>MI APORTE</dt><dd>{project.contribution}</dd></div><div><dt>ENFOQUE</dt><dd>{project.focus}</dd></div><div><dt>BASE TÉCNICA</dt><dd>{project.implementation}</dd></div></dl><ul className="tags">{project.tech.map(tech => <li key={tech}>{tech}</li>)}</ul><a className="project-link" href={project.url} target="_blank" rel="noreferrer">Ver {project.name.replace(/\.$/, '')} <Arrow /></a></div><div className="project-preview"><div className="browser-bar" aria-hidden="true"><span className="browser-dots"><i /><i /><i /></span><span>{project.previewLabel}</span><Arrow /></div><video controls playsInline loading="lazy" preload="none" poster={project.poster} aria-label={project.number === '01' ? 'Recorrido por Inicio, Buscar, Batallas y Ranking de Auraverse' : `Vista previa de ${project.name}`} src={`${project.video}#t=0.1`} /><p className="preview-caption">{project.number === '01' ? 'INICIO · BUSCAR · BATALLAS · RANKING' : 'DALE PLAY Y MÍRALO EN ACCIÓN'} <PlayIcon /></p></div></div>
         </article>)}</div>
       </section>
-      <section className="about section-wrap" id="about"><div><p className="eyebrow">02 / DETRÁS DEL CÓDIGO</p><h2>Una mente curiosa.<br/>Manos en el <em>código.</em></h2><div className="about-sticker" aria-hidden="true">{ '</>' }</div></div><div className="about-copy"><p>Soy Juan Camilo, desarrollador de software con experiencia en QA y soporte TI. Me interesa construir aplicaciones útiles, cuidar su calidad y entender las necesidades de quienes las usan.</p><p>Trabajo con React, JavaScript y herramientas como Supabase para conectar la interfaz con lo que pasa detrás. Cada proyecto es una oportunidad para aprender, cuidar los detalles y construir algo mejor.</p><div className="experience-list" aria-label="Experiencia profesional">
+      <section className="about section-wrap" id="about"><div><p className="eyebrow">02 / DETRÁS DEL CÓDIGO</p><h2>Una mente curiosa.<br/>Manos en el <em>código.</em></h2><div className="about-sticker" aria-hidden="true">{ '</>' }</div></div><div className="about-copy"><p>Soy Juan Camilo, desarrollador de software con experiencia en QA y soporte TI. Me gusta entrar en problemas complejos, entender cómo encajan sus piezas y convertirlos en software útil. Mi experiencia en QA y soporte me enseñó a pensar también en lo que puede fallar y en quienes usan cada sistema.</p><p>Trabajo con React, Next.js, Nest.js y PostgreSQL para conectar interfaces, lógica de negocio y datos. Me interesa seguir creciendo en arquitectura de software y construir sistemas cada vez más sólidos, sin perder el cuidado por los detalles.</p><div className="experience-list" aria-label="Experiencia profesional">
           <h3>Experiencia y proyecto actual</h3>
           <article className="experience-item">
             <div className="experience-header"><h4>Auraverse</h4><span>Actualidad</span></div>
@@ -148,7 +136,7 @@ export default function App() {
             <div className="experience-header"><h4>Alcaldía de Armenia</h4><span>6 meses</span></div>
             <p>Mesa de ayuda y control de aplicativos institucionales · Armenia, Quindío</p>
           </article>
-        </div><a className="pill outline" href={cv} download="CV_Juan_Camilo.pdf">Descargar mi CV <DownArrow /></a><div className="about-details"><span>MI ENFOQUE</span><p>Interfaces cuidadas.<br/>Soluciones prácticas.<br/>Aprendizaje constante.</p></div></div></section>
+        </div><a className="pill outline" href={cv} download="CV_Juan_Camilo.pdf">Descargar mi CV <DownArrow /></a><div className="about-details"><span>MI ENFOQUE</span><p>Lógica y datos bien conectados.<br/>Calidad en cada detalle.<br/>Aprendizaje constante.</p></div></div></section>
       <section className="contact section-wrap" id="contact"><div className="contact-top eyebrow"><span>03 / EL SIGUIENTE PASO</span><span>¿TIENES ALGO EN MENTE?</span></div><a className="contact-title" href="mailto:camilo9171@gmail.com" aria-label="Escribir a Juan Camilo por correo"><h2>Hagamos<br/>algo <RotatingContactWord /></h2><span className="contact-arrow"><Arrow /></span></a><div className="contact-bottom"><p>Una idea, un proyecto o una oportunidad.<br/>Me encantará saber de ti.</p><div className="contact-options">
           <a className="contact-whatsapp" href="https://wa.me/573117863431" target="_blank" rel="noreferrer">Hablemos por WhatsApp <Arrow /></a>
           <a className="contact-email" href="mailto:camilo9171@gmail.com">camilo9171@gmail.com <Arrow /></a>
