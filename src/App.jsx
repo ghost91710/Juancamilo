@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import videoStore from './assets/video1.1.mp4';
 import videoBudget from './assets/video2.1.mp4';
 import videoAuraverse from './assets/video-auraverse.mp4';
@@ -11,15 +11,47 @@ const technologies = [
 ];
 
 const projects = [
-  { name: 'Auraverse.', category: 'PLATAFORMA SOCIAL', number: '01', status: 'En desarrollo', description: 'Desarrollo por encargo de una red social para compartir fotos y clips, participar en batallas y subir en el ranking de la comunidad. Un proyecto para un cliente, actualmente en desarrollo.', tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle'], previewLabel: 'auraverse.site', poster: '/project-auraverse.png', video: videoAuraverse, url: 'https://auraverse.site/' },
-  { name: 'Todo en orden.', category: 'GESTIÓN DE TIENDA', number: '02', description: 'Una aplicación para conectar inventario, proveedores y ventas en un solo lugar. Con un catálogo público para llevar la tienda también a la web.', tech: ['React', 'Nest.js', 'Supabase', 'Tailwind'], previewLabel: 'minimercado / dashboard', poster: '/project-store.jpg', video: videoStore, url: 'https://minimercadodemo-cmdr.vercel.app/' },
-  { name: 'Cuentas claras.', category: 'FINANZAS PERSONALES', number: '03', description: 'Un espacio para registrar gastos, seguir los movimientos y entender mejor las finanzas personales. Información organizada para tomar decisiones.', tech: ['React', 'JavaScript', 'Supabase', 'Tailwind'], previewLabel: 'mis gastos / dashboard', poster: '/project-budget.jpg', video: videoBudget, url: 'https://appgastos-ten.vercel.app/' },
+  { name: 'Auraverse.', category: 'PLATAFORMA SOCIAL', number: '01', status: 'En desarrollo', description: 'Una red social para compartir fotos y clips, participar en batallas y subir en el ranking de la comunidad.', contribution: 'Desarrollo de la plataforma por encargo de un cliente.', focus: 'Publicaciones, batallas y ranking en un mismo recorrido.', implementation: 'Next.js y TypeScript con PostgreSQL y Drizzle para los datos.', tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle'], previewLabel: 'auraverse.site', poster: '/project-auraverse.png', video: videoAuraverse, url: 'https://auraverse.site/' },
+  { name: 'Todo en orden.', category: 'GESTIÓN DE TIENDA', number: '02', description: 'Una aplicación que reúne la gestión de una tienda y un catálogo público para llevarla también a la web.', contribution: 'Desarrollo de la aplicación de gestión y el catálogo.', focus: 'Conectar inventario, proveedores y ventas.', implementation: 'React para la interfaz y Nest.js para el servidor, con Supabase.', tech: ['React', 'Nest.js', 'Supabase', 'Tailwind'], previewLabel: 'minimercado / dashboard', poster: '/project-store.jpg', video: videoStore, url: 'https://minimercadodemo-cmdr.vercel.app/' },
+  { name: 'Cuentas claras.', category: 'FINANZAS PERSONALES', number: '03', description: 'Un espacio para registrar gastos, seguir movimientos y entender mejor las finanzas personales.', contribution: 'Desarrollo de la aplicación para registrar y consultar gastos.', focus: 'Hacer más fácil el seguimiento de los movimientos.', implementation: 'React y JavaScript para la interfaz, con Supabase para los datos.', tech: ['React', 'JavaScript', 'Supabase', 'Tailwind'], previewLabel: 'mis gastos / dashboard', poster: '/project-budget.jpg', video: videoBudget, url: 'https://appgastos-ten.vercel.app/' },
 ];
 
 function Arrow() { return <svg className="icon-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>; }
 function DownArrow() { return <svg className="icon-down" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>; }
 function PlayIcon() { return <svg className="icon-play" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m8 5 12 7-12 7V5Z" fill="currentColor" /></svg>; }
 function Sparkle() { return <svg className="icon-sparkle" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 1v22M1 12h22M4.2 4.2l15.6 15.6m0-15.6L4.2 19.8" stroke="currentColor" strokeWidth="2" /></svg>; }
+
+const contactWords = [
+  'genial', 'asombroso', 'chimba', 'chévere', 'magnífico',
+  'increíble', 'bacano', 'brutal', 'memorable', 'distinto',
+];
+
+function RotatingContactWord() {
+  const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let swapTimeout;
+    const interval = window.setInterval(() => {
+      setLeaving(true);
+      swapTimeout = window.setTimeout(() => {
+        setIndex((current) => (current + 1) % contactWords.length);
+        setLeaving(false);
+      }, 300);
+    }, 3400);
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(swapTimeout);
+    };
+  }, []);
+
+  const word = contactWords[index];
+  return <span className="contact-word-slot">
+    {contactWords.map((entry) => <span key={entry} className={`contact-word-measure${entry.length > 6 ? ' is-long' : ''}`} aria-hidden="true">{entry}.</span>)}
+    <em key={word} className={`contact-word${word.length > 6 ? ' contact-word-long' : ''}${index === 0 ? ' contact-word-initial' : ''}${leaving ? ' is-leaving' : ''}`}>{word}.</em>
+  </span>;
+}
 
 function Brand() {
   return <a className="wordmark" href="#inicio" aria-label="Juan Camilo, volver al inicio">
@@ -55,6 +87,20 @@ function Character() {
 }
 
 export default function App() {
+  const tickerRef = useRef(null);
+  const firstTickerGroupRef = useRef(null);
+
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 500px), (pointer: coarse)');
+    const positionTicker = () => {
+      if (!tickerRef.current) return;
+      tickerRef.current.scrollLeft = mobile.matches ? firstTickerGroupRef.current?.offsetWidth ?? 0 : 0;
+    };
+    positionTicker();
+    mobile.addEventListener('change', positionTicker);
+    return () => mobile.removeEventListener('change', positionTicker);
+  }, []);
+
   return <>
     <a className="skip-link" href="#projects">Saltar a los proyectos</a>
     <header className="navigation">
@@ -68,8 +114,8 @@ export default function App() {
         <div className="hero-bottom"><div className="hero-copy"><p>Desarrollador de software.<br/>Construyo experiencias digitales que<br className="desktop-break"/> se ven bien y resuelven problemas reales.</p><a className="pill yellow" href="#projects">Explora mi trabajo <DownArrow /></a></div><Character /></div>
         <div className="hero-foot eyebrow"><span>DESARROLLO WEB & UN TOQUE DE PERSONALIDAD</span><a href="#projects">SIGUE EXPLORANDO <DownArrow /></a></div>
       </section>
-      <div className="ticker" role="img" aria-label={`Tecnologías: ${technologies.join(', ')}`}>
-        <div aria-hidden="true">{[0, 1].map(copy => <span className="ticker-group" key={copy}>
+      <div ref={tickerRef} className="ticker" role="img" aria-label={`Tecnologías: ${technologies.join(', ')}`}>
+        <div aria-hidden="true">{[0, 1].map(copy => <span className="ticker-group" ref={copy === 0 ? firstTickerGroupRef : undefined} key={copy}>
           {technologies.map(technology => <span className="ticker-item" key={technology}>{technology.toUpperCase()} <Sparkle /></span>)}
         </span>)}</div>
       </div>
@@ -85,7 +131,7 @@ export default function App() {
           }}
         >
           <div className="project-top eyebrow"><span>{project.category}</span><span>PROYECTO / {project.number}</span></div>
-          <div className="project-layout"><div className="project-info"><h3>{project.name}</h3>{project.status && <span className="project-status"><i />{project.status}</span>}<p>{project.description}</p><ul className="tags">{project.tech.map(tech => <li key={tech}>{tech}</li>)}</ul><a className="project-link" href={project.url} target="_blank" rel="noreferrer">Explorar proyecto <Arrow /></a></div><div className="project-preview"><div className="browser-bar" aria-hidden="true"><span className="browser-dots"><i /><i /><i /></span><span>{project.previewLabel}</span><Arrow /></div><video controls playsInline preload="none" poster={project.poster} aria-label={project.number === '01' ? 'Recorrido por Inicio, Buscar, Batallas y Ranking de Auraverse' : `Vista previa de ${project.name}`} src={`${project.video}#t=0.1`} /><p className="preview-caption">{project.number === '01' ? 'INICIO · BUSCAR · BATALLAS · RANKING' : 'DALE PLAY Y MÍRALO EN ACCIÓN'} <PlayIcon /></p></div></div>
+          <div className="project-layout"><div className="project-info"><h3>{project.name}</h3>{project.status && <span className="project-status"><i />{project.status}</span>}<p>{project.description}</p><dl className="project-context"><div><dt>MI APORTE</dt><dd>{project.contribution}</dd></div><div><dt>ENFOQUE</dt><dd>{project.focus}</dd></div><div><dt>BASE TÉCNICA</dt><dd>{project.implementation}</dd></div></dl><ul className="tags">{project.tech.map(tech => <li key={tech}>{tech}</li>)}</ul><a className="project-link" href={project.url} target="_blank" rel="noreferrer">Ver {project.name.replace(/\.$/, '')} <Arrow /></a></div><div className="project-preview"><div className="browser-bar" aria-hidden="true"><span className="browser-dots"><i /><i /><i /></span><span>{project.previewLabel}</span><Arrow /></div><video controls playsInline loading="lazy" preload="none" poster={project.poster} aria-label={project.number === '01' ? 'Recorrido por Inicio, Buscar, Batallas y Ranking de Auraverse' : `Vista previa de ${project.name}`} src={`${project.video}#t=0.1`} /><p className="preview-caption">{project.number === '01' ? 'INICIO · BUSCAR · BATALLAS · RANKING' : 'DALE PLAY Y MÍRALO EN ACCIÓN'} <PlayIcon /></p></div></div>
         </article>)}</div>
       </section>
       <section className="about section-wrap" id="about"><div><p className="eyebrow">02 / DETRÁS DEL CÓDIGO</p><h2>Una mente curiosa.<br/>Manos en el <em>código.</em></h2><div className="about-sticker" aria-hidden="true">{ '</>' }</div></div><div className="about-copy"><p>Soy Juan Camilo, desarrollador de software con experiencia en QA y soporte TI. Me interesa construir aplicaciones útiles, cuidar su calidad y entender las necesidades de quienes las usan.</p><p>Trabajo con React, JavaScript y herramientas como Supabase para conectar la interfaz con lo que pasa detrás. Cada proyecto es una oportunidad para aprender, cuidar los detalles y construir algo mejor.</p><div className="experience-list" aria-label="Experiencia profesional">
@@ -103,11 +149,11 @@ export default function App() {
             <p>Mesa de ayuda y control de aplicativos institucionales · Armenia, Quindío</p>
           </article>
         </div><a className="pill outline" href={cv} download="CV_Juan_Camilo.pdf">Descargar mi CV <DownArrow /></a><div className="about-details"><span>MI ENFOQUE</span><p>Interfaces cuidadas.<br/>Soluciones prácticas.<br/>Aprendizaje constante.</p></div></div></section>
-      <section className="contact section-wrap" id="contact"><div className="contact-top eyebrow"><span>03 / EL SIGUIENTE PASO</span><span>¿TIENES ALGO EN MENTE?</span></div><a className="contact-title" href="mailto:camilo9171@gmail.com"><h2>Hagamos<br/>algo <em>genial.</em></h2><span className="contact-arrow"><Arrow /></span></a><div className="contact-bottom"><p>Una idea, un proyecto o una oportunidad.<br/>Me encantará saber de ti.</p><div className="contact-options">
+      <section className="contact section-wrap" id="contact"><div className="contact-top eyebrow"><span>03 / EL SIGUIENTE PASO</span><span>¿TIENES ALGO EN MENTE?</span></div><a className="contact-title" href="mailto:camilo9171@gmail.com" aria-label="Escribir a Juan Camilo por correo"><h2>Hagamos<br/>algo <RotatingContactWord /></h2><span className="contact-arrow"><Arrow /></span></a><div className="contact-bottom"><p>Una idea, un proyecto o una oportunidad.<br/>Me encantará saber de ti.</p><div className="contact-options">
           <a className="contact-whatsapp" href="https://wa.me/573117863431" target="_blank" rel="noreferrer">Hablemos por WhatsApp <Arrow /></a>
           <a className="contact-email" href="mailto:camilo9171@gmail.com">camilo9171@gmail.com <Arrow /></a>
         </div></div></section>
     </main>
-    <footer className="footer"><Brand /><p>HECHO CON INTENCIÓN. Y MUCHO CAFÉ.</p><div><a href="https://github.com/Juan-camilo-GM" target="_blank" rel="noreferrer">GitHub <Arrow /></a><a href="https://www.linkedin.com/in/juan-camilo-gonz%C3%A1lez-mu%C3%B1oz-a0855924b/" target="_blank" rel="noreferrer">LinkedIn <Arrow /></a><a href="https://wa.me/573117863431" target="_blank" rel="noreferrer">WhatsApp <Arrow /></a></div></footer>
+    <footer className="footer"><Brand /><p>DISEÑADO Y DESARROLLADO POR JUAN CAMILO.</p><div><a href="https://github.com/Juan-camilo-GM" target="_blank" rel="noreferrer">GitHub <Arrow /></a><a href="https://www.linkedin.com/in/juan-camilo-gonz%C3%A1lez-mu%C3%B1oz-a0855924b/" target="_blank" rel="noreferrer">LinkedIn <Arrow /></a><a href="https://wa.me/573117863431" target="_blank" rel="noreferrer">WhatsApp <Arrow /></a></div></footer>
   </>;
 }
