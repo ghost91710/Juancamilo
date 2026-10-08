@@ -110,9 +110,9 @@ export default function App() {
     <main>
       <section className="hero" id="inicio">
         <div className="hero-top eyebrow"><span>JUAN CAMILO GONZÁLEZ MUÑOZ</span><span className="availability"><i /> ABIERTO A OPORTUNIDADES</span></div>
-        <h1>Ideas que se<br/>vuelven <span className="web-word">web<svg viewBox="0 0 410 25" preserveAspectRatio="none" aria-hidden="true"><path d="M5 17Q177 -3 401 11M36 23Q197 5 375 20" /></svg></span><span className="period">.</span></h1>
+        <h1>Ideas que se<br/>vuelven <span className="software-word">software<svg viewBox="0 0 410 25" preserveAspectRatio="none" aria-hidden="true"><path d="M5 17Q177 -3 401 11M36 23Q197 5 375 20" /></svg></span><span className="period">.</span></h1>
         <div className="hero-bottom"><div className="hero-copy"><p>Desarrollador de software.<br/>Construyo experiencias digitales que<br className="desktop-break"/> se ven bien y resuelven problemas reales.</p><a className="pill yellow" href="#projects">Explora mi trabajo <DownArrow /></a></div><Character /></div>
-        <div className="hero-foot eyebrow"><span>DESARROLLO WEB & UN TOQUE DE PERSONALIDAD</span><a href="#projects">SIGUE EXPLORANDO <DownArrow /></a></div>
+        <div className="hero-foot eyebrow"><span>DESARROLLO software & UN TOQUE DE PERSONALIDAD</span><a href="#projects">SIGUE EXPLORANDO <DownArrow /></a></div>
       </section>
       <div ref={tickerRef} className="ticker" role="img" aria-label={`Tecnologías: ${technologies.join(', ')}`}>
         <div aria-hidden="true">{[0, 1].map(copy => <span className="ticker-group" ref={copy === 0 ? firstTickerGroupRef : undefined} key={copy}>
