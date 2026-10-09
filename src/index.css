@@ -552,3 +552,99 @@ nav .nav-contact{border:none;
 .character-wink .character-eyes{animation:none}
 .character-wink .character-wink-eye{transform:scaleY(.12)}
 @media(max-width:800px){.section-wrap[id]{--anchor-inset:70px}.contact[id]{--anchor-inset:30px}}
+
+/* Small, touch-triggered scenes. Only the actor travels; its caption stays put. */
+#root{overflow-x:clip}
+.character[aria-disabled="true"]{cursor:progress}
+.character-traveler{transform-origin:160px 315px}
+.character-pencil,.character-headphones,.character-coffee-cup,.character-rocket-pack,.character-music,.character-dust{opacity:0;pointer-events:none}
+.character-legs{transform-origin:160px 255px}
+.character-fetch .character-traveler{animation:character-fetch-trip 6.4s both}
+.character-fetch .character-body{animation:character-scurry .22s ease-in-out 17 alternate}
+.character-fetch .character-legs{animation:character-run .18s ease-in-out 21 alternate}
+.character-fetch .character-right-arm{animation:character-throw-arm 6.4s both}
+.character-fetch .character-pencil{animation:character-pencil-reveal 6.4s both}
+.character-fetch .character-shadow{animation:character-trip-shadow 6.4s both}
+.character-fetch .character-dust{animation:character-dust-puff 6.4s both}
+.character-dance .character-body{animation:character-groove .6s ease-in-out 6}
+.character-dance .character-headphones,.character-dance .character-music{opacity:1}
+.character-dance .character-music{animation:character-music-float 1.2s ease-in-out 3}
+.character-dance .character-left-arm{animation:character-dance-arm .3s ease-in-out infinite alternate}
+.character-dance .character-right-arm{animation:hello-wave .3s ease-in-out infinite alternate-reverse}
+.character-dance .character-shadow{animation:jump-shadow .6s ease-in-out 6}
+.character-coffee .character-coffee-cup{animation:character-sip 4.2s both;transform-origin:160px 215px}
+.character-coffee .character-steam{animation:character-steam-rise 1.4s ease-out infinite}
+.character-coffee .character-right-arm{animation:none;transform:rotate(75deg)}
+.character-coffee .character-body{animation:character-coffee-sway 4.2s both}
+.character-coffee .character-eyes{animation:character-coffee-eyes 4.2s both}
+.character-rocket .character-traveler{animation:character-launch 7.4s both}
+.character-rocket .character-body{animation:none}
+.character-rocket .character-rocket-pack{animation:character-gear 7.4s both}
+.character-rocket .character-flame{transform-origin:160px 276px;animation:character-thrust .15s ease-in-out infinite alternate}
+.character-rocket .character-shadow{animation:character-launch-shadow 7.4s both}
+.character-rocket .character-right-arm{animation:none;transform:rotate(45deg)}
+.character-fetch .character-sparks,.character-rocket .character-sparks{opacity:0;animation:none}
+@keyframes character-fetch-trip{
+  0%,6%{transform:translateX(0)}
+  10%{transform:translateX(-15px) rotate(-8deg)}
+  27%,39%{transform:translateX(var(--escape-x,110vw)) rotate(12deg)}
+  61%{transform:translateX(-8px) rotate(-4deg)}
+  66%,90%{transform:translateX(0)}
+  95%{transform:translateY(-8px)}
+  100%{transform:translateX(0)}
+}
+@keyframes character-scurry{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-7px) rotate(4deg)}}
+@keyframes character-run{from{transform:rotate(-12deg)}to{transform:rotate(12deg)}}
+@keyframes character-pencil-reveal{0%,32%{opacity:0}36%,67%{opacity:1;transform:rotate(0)}72%{opacity:1;transform:rotate(-25deg)}74.99%{opacity:1;transform:rotate(18deg)}75%,100%{opacity:0;transform:rotate(18deg)}}
+@keyframes character-throw-arm{0%,61%{transform:rotate(0)}67%{transform:rotate(0)}72%{transform:rotate(-25deg)}75%,81%{transform:rotate(18deg)}90%,100%{transform:rotate(0)}}
+@keyframes character-trip-shadow{0%,8%,65%,100%{opacity:.12;transform:scaleX(1)}26%,43%{opacity:0;transform:scaleX(.4)}}
+@keyframes character-dust-puff{0%,10%,36%,100%{opacity:0;transform:translateX(0)}15%,22%{opacity:.65;transform:translateX(-10px)}30%{opacity:0;transform:translateX(-30px)}}
+@keyframes character-groove{0%,100%{transform:rotate(-9deg) translateY(0)}25%{transform:rotate(0) translateY(-13px) scale(1,.97)}50%{transform:rotate(9deg) translateY(0)}75%{transform:rotate(0) translateY(-13px) scale(1,.97)}}
+@keyframes character-dance-arm{from{transform:rotate(-65deg)}to{transform:rotate(-18deg)}}
+@keyframes character-music-float{0%{opacity:0;transform:translateY(15px)}25%,70%{opacity:1}100%{opacity:0;transform:translateY(-25px)}}
+@keyframes character-sip{0%,100%{opacity:0;transform:translateY(30px)}12%,34%,78%,90%{opacity:1;transform:translateY(0)}44%,64%{opacity:1;transform:translate(-5px,-35px) rotate(-12deg)}}
+@keyframes character-steam-rise{from{opacity:.7;transform:translateY(3px)}to{opacity:0;transform:translateY(-15px)}}
+@keyframes character-coffee-sway{0%,100%{transform:rotate(-2deg)}40%,65%{transform:rotate(5deg)}80%{transform:rotate(-4deg)}}
+@keyframes character-coffee-eyes{0%,35%,75%,100%{transform:scaleY(1)}42%,65%{transform:scaleY(.15)}}
+@keyframes character-launch{0%,100%{transform:translateY(0)}8%{transform:translateY(10px) scale(1.07,.9)}13%{transform:translateY(-25px) scale(.96,1.04)}25%,66%{transform:translateY(var(--escape-y,-120vh)) rotate(-12deg)}83%{transform:translateY(-18px) rotate(6deg)}88%{transform:translateY(4px) scale(1.08,.92)}94%{transform:translateY(0)}}
+@keyframes character-gear{0%,100%{opacity:0}8%,88%{opacity:1}}
+@keyframes character-thrust{from{transform:scaleY(.5)}to{transform:scaleY(1.2)}}
+@keyframes character-launch-shadow{0%,100%{opacity:.12;transform:scaleX(1)}25%,68%{opacity:0;transform:scaleX(.2)}88%{opacity:.18;transform:scaleX(1.1)}}
+@media(prefers-reduced-motion:reduce){
+  .character-traveler,.character-legs,.character-coffee .character-coffee-cup{transform:none}
+  .character-fetch .character-pencil,.character-coffee .character-coffee-cup,.character-rocket .character-rocket-pack{opacity:1}
+  .character-rocket .character-flame,.character-coffee .character-steam{opacity:0}
+}
+
+/* A viewport layer gives the pencil depth without intercepting clicks. */
+.character-pencil{transform-origin:231px 151px}
+.pencil-throw-stage{position:fixed;inset:0;z-index:200;pointer-events:none;overflow:clip}
+.pencil-projectile{position:absolute;left:0;top:0;width:var(--pencil-width);opacity:0;animation:pencil-toward-viewer .85s linear both;will-change:transform,filter}
+.pencil-projectile svg{display:block;width:100%;filter:drop-shadow(0 4px 3px #0005)}
+.pencil-impact{position:absolute;left:50%;top:45%;width:min(65vw,360px);transform:translate(-50%,-50%);opacity:0;animation:pencil-screen-impact .8s .65s ease-out both}
+.pencil-impact svg{display:block;width:100%;overflow:visible}
+.pencil-impact-ring{stroke:#f4f2e9;stroke-width:2;transform-origin:120px 120px;animation:pencil-impact-expand .7s .65s ease-out both}
+.pencil-impact-lines{stroke:#f6df24;stroke-width:4;stroke-linecap:round}
+.pencil-impact-scribble{stroke:#f6df24;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:180;stroke-dashoffset:180;animation:pencil-scribble .2s .68s ease-out forwards}
+@keyframes pencil-toward-viewer{
+  0%{opacity:1;transform:translate(var(--pencil-x),var(--pencil-y)) translate(-50%,-50%) rotate(-40deg) scale(1);filter:blur(0)}
+  45%{opacity:1;transform:translate(calc(var(--pencil-x) * .4 + 30vw),calc(var(--pencil-y) * .4 + 27vh)) translate(-50%,-50%) rotate(35deg) scale(2.4);filter:blur(.3px)}
+  78%{opacity:1;transform:translate(50vw,45vh) translate(-50%,-50%) rotate(145deg) scale(8);filter:blur(1px)}
+  100%{opacity:0;transform:translate(48vw,49vh) translate(-50%,-50%) rotate(165deg) scale(12);filter:blur(5px)}
+}
+@keyframes pencil-screen-impact{0%{opacity:0}12%,45%{opacity:1}100%{opacity:0}}
+@keyframes pencil-impact-expand{from{transform:scale(.25);opacity:1}to{transform:scale(1.8);opacity:0}}
+@keyframes pencil-scribble{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.pencil-throw-stage{display:none}.character-fetch .character-pencil{transform:none}}
+
+/* The astronaut peeks from the opposite edge while the original is offscreen. */
+.character-peek-stage{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:clip}
+.character-rocket-peek{position:absolute;left:0;top:30%;width:clamp(155px,19vw,250px);animation:character-edge-peek 2.6s ease-in-out both}
+.character-rocket-peek>svg{display:block;width:100%;overflow:visible;transform:rotate(70deg)}
+.character-rocket-peek .character-body{animation:none;transform:none}
+.character-rocket-peek .character-gaze{transform:none}
+.character-rocket-peek .character-rocket-pack{opacity:1}
+.character-rocket-peek .character-flame{opacity:0}
+.character-rocket-peek .character-right-arm{animation:hello-wave .35s ease-in-out infinite alternate}
+@keyframes character-edge-peek{0%,100%{transform:translateX(-140%)}22%,72%{transform:translateX(-42%)}80%{transform:translateX(-36%)}}
+@media(prefers-reduced-motion:reduce){.character-peek-stage{display:none}}
