@@ -27,9 +27,13 @@ export default function useCharacterJourney(homeRef, actorRef, onSceneChange) {
     let origin = { x: 0, y: 0, width: 255 };
     let current = origin;
     let travelDirection = 1;
+    const transitions = new Set();
 
     function desiredPlace(boxes) {
       const height = window.innerHeight;
+      // Keep the current scene through small scroll/viewport changes on mobile.
+      if ((phase === 'resting' || phase === 'entering') &&
+          boxes[place].bottom > height * .04 && boxes[place].top < height * .95) return place;
       for (const name of ['contact', 'about']) {
         if (boxes[name].top < height * .82 && boxes[name].top > height * .08) return name;
       }
@@ -48,7 +52,10 @@ export default function useCharacterJourney(homeRef, actorRef, onSceneChange) {
       actor.style.visibility = visible ? 'visible' : 'hidden';
       actor.style.pointerEvents = phase === 'resting' ? 'auto' : 'none';
       actor.inert = phase !== 'resting';
-      actor.style.transform = `translate3d(${point.x}px, ${point.y}px, 0) scale(${point.width / 255}) rotate(7deg)`;
+      // Use document coordinates so native touch scrolling also moves the actor
+      // between JS frames, instead of repeatedly catching up in a fixed overlay.
+      const stage = actor.parentElement.getBoundingClientRect();
+      actor.style.transform = `translate3d(${point.x - stage.left}px, ${point.y - stage.top}px, 0) scale(${point.width / 255}) rotate(7deg)`;
       actor.style.setProperty('--journey-scale', point.width / 255);
       actor.style.setProperty('--run-facing', travelDirection);
       actor.dataset.place = place;
@@ -56,6 +63,7 @@ export default function useCharacterJourney(homeRef, actorRef, onSceneChange) {
 
     function render(time) {
       frame = 0;
+      if (transitions.size) schedule();
       const scroll = window.scrollY;
       const scrollDelta = scroll - lastScroll;
       lastScroll = scroll;
@@ -119,7 +127,17 @@ export default function useCharacterJourney(homeRef, actorRef, onSceneChange) {
     Object.values(docks).forEach((dock) => observer.observe(dock));
     const page = document.querySelector('main');
     observer.observe(page);
-    page.addEventListener('transitionend', schedule);
+    // A reveal changes a dock's position without triggering ResizeObserver.
+    function trackTransition(event) {
+      if (event.propertyName !== 'transform' ||
+          !Object.values(docks).some((dock) => event.target.contains(dock))) return;
+      if (event.type === 'transitionrun') transitions.add(event.target);
+      else transitions.delete(event.target);
+      schedule();
+    }
+    for (const event of ['transitionrun', 'transitionend', 'transitioncancel']) {
+      page.addEventListener(event, trackTransition);
+    }
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     motion.addEventListener('change', schedule);
@@ -127,7 +145,9 @@ export default function useCharacterJourney(homeRef, actorRef, onSceneChange) {
     return () => {
       observer.disconnect();
       window.cancelAnimationFrame(frame);
-      page.removeEventListener('transitionend', schedule);
+      for (const event of ['transitionrun', 'transitionend', 'transitioncancel']) {
+        page.removeEventListener(event, trackTransition);
+      }
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       motion.removeEventListener('change', schedule);
