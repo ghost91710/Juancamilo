@@ -141,8 +141,9 @@ export default function App() {
             <p>Desarrollo de plataforma social por encargo de un cliente</p>
           </article>
           <article className="experience-item">
-            <div className="experience-header"><h4>Rappi</h4><span>6 meses · Prácticas</span></div>
+            <div className="experience-header"><h4>Rappi</h4><span>1 año · Actualidad</span></div>
             <p>Analista QA · Pruebas manuales y uso de Jira</p>
+            <p>6 meses de prácticas y 6 meses de vinculación laboral.</p>
           </article>
           <article className="experience-item">
             <div className="experience-header"><h4>Alcaldía de Armenia</h4><span>6 meses</span></div>
