@@ -648,3 +648,55 @@ nav .nav-contact{border:none;
 .character-rocket-peek .character-right-arm{animation:hello-wave .35s ease-in-out infinite alternate}
 @keyframes character-edge-peek{0%,100%{transform:translateX(-140%)}22%,72%{transform:translateX(-42%)}80%{transform:translateX(-36%)}}
 @media(prefers-reduced-motion:reduce){.character-peek-stage{display:none}}
+
+/* The empty home and section docks reserve room for a single traveling actor. */
+.character-home{height:auto;aspect-ratio:255 / 344;transform:none;pointer-events:none}
+.character-journey{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:clip}
+.character-journey .character-actor{position:absolute;top:0;left:0;right:auto;bottom:auto;width:255px;transform-origin:0 0;pointer-events:auto;will-change:transform}
+.character-actor:not([data-place="home"]) .character-note{font-size:calc(10px / var(--journey-scale,1));max-width:240px}
+.character-actor:not([data-place="home"]) .character-hint{font-size:calc(7px / var(--journey-scale,1));letter-spacing:.4px}
+.character-actor[data-journey="exiting"] .character-note,.character-actor[data-journey="entering"] .character-note,.character-actor[data-journey="exiting"] .character-hint,.character-actor[data-journey="entering"] .character-hint{visibility:hidden}
+.character-actor[data-place="contact"] .character-note,.character-actor[data-place="contact"] .character-hint{color:#141414}
+.character-actor[data-place="contact"]:focus-visible{outline-color:#141414}
+.character-actor[data-place="contact"] :is(.character-left-arm,.character-right-arm){stroke:#151515}
+.character-magnifier,.character-letter,.character-thought{opacity:0;pointer-events:none}
+.character-idle[data-place="about"] .character-magnifier,.character-inspect .character-magnifier{opacity:1}
+.character-inspect .character-magnifier{animation:character-inspect 1.6s ease-in-out 2;transform-origin:181px 137px}
+.character-think .character-thought{opacity:1;animation:character-think 1s ease-in-out 3}
+.character-think .character-right-arm{animation:character-ponder .75s ease-in-out 4}
+.character-idle[data-place="contact"] .character-letter,.character-mail .character-letter{opacity:1}
+.character-letter-paper{transform:translateY(30px)}
+.character-mail .character-letter-paper{animation:character-open-letter 3s ease-in-out both}
+.character-invite .character-right-arm{animation:character-invite .7s ease-in-out 4}
+.character-idle[data-place="contact"] .character-right-arm,.character-idle[data-place="about"] .character-right-arm,.character-inspect .character-right-arm,.character-mail .character-right-arm{animation:none;transform:rotate(65deg)}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-traveler{transform:scaleX(var(--run-facing,1))}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-body{animation:character-running .3s ease-in-out infinite alternate}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-legs{animation:none;transform:none}
+.character-leg-left{transform-origin:135px 245px}
+.character-leg-right{transform-origin:180px 245px}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-leg-left{animation:character-stride .3s ease-in-out infinite alternate}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-leg-right{animation:character-stride .3s ease-in-out infinite alternate-reverse}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-right-arm{animation:character-run-arm .3s ease-in-out infinite alternate}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-left-arm{animation:character-run-arm .3s ease-in-out infinite alternate-reverse}
+.character-actor:is([data-journey="exiting"],[data-journey="entering"]) :is(.character-magnifier,.character-letter,.character-sparks){opacity:0}
+@keyframes character-running{from{transform:translateY(0) rotate(3deg)}to{transform:translateY(-3px) rotate(5deg)}}
+@keyframes character-stride{from{transform:rotate(-13deg)}to{transform:rotate(13deg)}}
+@keyframes character-run-arm{from{transform:rotate(-16deg)}to{transform:rotate(20deg)}}
+@keyframes character-inspect{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-45px,-12px) rotate(-15deg)}}
+@keyframes character-think{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes character-ponder{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(-35deg)}}
+@keyframes character-open-letter{0%,100%{transform:translateY(30px)}30%,75%{transform:translateY(-12px)}}
+@keyframes character-invite{0%,100%{transform:rotate(55deg)}50%{transform:rotate(90deg)}}
+.character-stop{flex:none}
+.character-stop::before{content:"";display:block;aspect-ratio:320 / 350}
+.character-stop::after{content:"";display:block;height:85px}
+.character-stop-about{width:210px;margin:36px 0 0 18px}
+.character-stop-contact{width:155px;margin-right:20px}
+.contact-companion{display:flex;align-items:center;gap:24px}
+@media(max-width:1100px){.contact-companion{gap:12px}.character-stop-contact{width:130px;margin-right:0}}
+@media(max-width:800px){.character-stop-about{width:175px;margin:24px auto 0}.contact-companion{justify-content:space-between;gap:12px}.character-stop-contact{width:140px}.contact-bottom{align-items:center}}
+@media(max-width:360px){.character-stop-contact{width:110px}.contact-companion>p{font-size:11px}}
+.about-personality{display:flex;align-items:flex-start;gap:24px;margin-top:36px}
+.about-personality .about-sticker{display:grid;flex:none;margin:24px 0 0 15px}
+.about-personality .character-stop-about{margin:0}
+@media(max-width:500px){.about-personality{gap:12px;margin-top:24px}.about-personality .about-sticker{margin-left:8px}}

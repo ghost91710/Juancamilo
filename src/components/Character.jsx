@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import useCharacterJourney from './useCharacterJourney';
 
 const actions = [
   { name: 'wave', duration: 2400, caption: '¡Ey! Qué bueno verte por aquí.' },
@@ -11,6 +12,23 @@ const actions = [
   { name: 'coffee', duration: 4200, caption: 'Un cafecito y seguimos creando.' },
   { name: 'rocket', duration: 7400, caption: 'Esa idea merece llegar muy lejos.', revealAt: 6100, reveal: '¡Volví! Allá arriba se ve brutal.' },
 ];
+
+const sectionCaptions = {
+  home: 'Un poco de código. Mucha curiosidad.',
+  about: '¡Llegué! Por aquí está la mente detrás del código.',
+  contact: '¡Te alcancé! ¿Le damos vida a esa idea?',
+};
+const sectionActions = {
+  home: actions,
+  about: [
+    { name: 'inspect', duration: 3200, caption: 'Ojo al detalle. Hasta el bug más pequeño cuenta.' },
+    { name: 'think', duration: 3000, caption: 'Primero entender el problema… luego viene el código.' },
+  ],
+  contact: [
+    { name: 'mail', duration: 3000, caption: 'Yo pongo el sobre. Tú pon la primera idea.' },
+    { name: 'invite', duration: 2800, caption: 'Por aquí se empieza: un mensajito y conversamos.' },
+  ],
+};
 
 function Pencil() {
   return <g stroke="#151515" strokeWidth="2.5" strokeLinejoin="round">
@@ -30,10 +48,26 @@ export default function Character() {
   const [rocketPeek, setRocketPeek] = useState(false);
   const [throwOrigin, setThrowOrigin] = useState(null);
   const impactAnimation = useRef(null);
-  const nextAction = useRef(0);
+  const nextAction = useRef({ home: 0, about: 0, contact: 0 });
+  const [place, setPlace] = useState('home');
+  const [traveling, setTraveling] = useState(false);
   const busy = useRef(false);
   const timers = useRef([]);
   const characterRef = useRef(null);
+  const homeRef = useRef(null);
+  const changeScene = useCallback((section, moving) => {
+    timers.current.forEach(window.clearTimeout);
+    timers.current = [];
+    impactAnimation.current?.cancel();
+    busy.current = moving;
+    setRocketPeek(false);
+    setThrowOrigin(null);
+    setAction('idle');
+    setPlace(section);
+    setTraveling(moving);
+    setCaption(sectionCaptions[section]);
+  }, []);
+  useCharacterJourney(homeRef, characterRef, changeScene);
 
   useEffect(() => () => {
     timers.current.forEach(window.clearTimeout);
@@ -43,13 +77,14 @@ export default function Character() {
   function perform() {
     if (busy.current) return;
     timers.current.forEach(window.clearTimeout);
-    const scene = actions[nextAction.current % actions.length];
+    const scenes = sectionActions[place];
+    const scene = scenes[nextAction.current[place] % scenes.length];
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     // SVG transforms use viewBox units, so account for the smaller actor on mobile.
-    const scale = characterRef.current.querySelector('svg').clientWidth / 320;
+    const scale = characterRef.current.querySelector('svg').clientWidth / 320 * Number(characterRef.current.style.getPropertyValue('--journey-scale') || 1);
     characterRef.current.style.setProperty('--escape-x', `${(window.innerWidth + 320) / scale}px`);
     characterRef.current.style.setProperty('--escape-y', `${-(window.innerHeight + 350) / scale}px`);
-    nextAction.current += 1;
+    nextAction.current[place] += 1;
     busy.current = true;
     setAction(scene.name);
     setCaption(reducedMotion ? scene.reveal || scene.caption : scene.caption);
@@ -79,7 +114,7 @@ export default function Character() {
       setThrowOrigin(null);
       impactAnimation.current?.cancel();
       setAction('idle');
-      setCaption('¿Otra? Todavía tengo más ideas.');
+      setCaption(sectionCaptions[place]);
       busy.current = false;
     }, reducedMotion ? 1800 : scene.duration));
   }
@@ -99,7 +134,7 @@ export default function Character() {
   // Reuse the same artwork when peeking from the viewport edge.
   const actor = <g className="character-body">
         <g stroke="#151515" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
-          <path className="character-legs" d="M123 242L115 295 83 304Q76 317 96 316L128 314 146 249M189 243L206 297 237 305Q247 317 227 317L195 313 169 249" fill="#f6df24" />
+          <g className="character-legs" fill="#f6df24"><path className="character-leg-left" d="M123 242L115 295 83 304Q76 317 96 316L128 314 146 249" /><path className="character-leg-right" d="M189 243L206 297 237 305Q247 317 227 317L195 313 169 249" /></g>
           <g className="character-left-arm" stroke="#f6df24"><path d={action === 'jump' ? "M83 152Q48 151 47 111M47 111C34 112 31 103 35 94Q40 86 45 95Q48 83 54 88Q61 94 57 104Z" : "M83 152Q35 175 44 221M46 216Q30 206 28 221L33 239M43 223L46 244M51 219L57 237"} /></g>
           <g className="character-right-arm" stroke="#f6df24"><path d={action === 'jump' ? "M231 151Q268 149 271 111M271 111C284 112 287 103 283 94Q278 86 273 95Q270 83 264 88Q257 94 261 104Z" : "M231 151Q273 156 282 115M272 124L267 100M280 119L285 94M285 126L300 107"} /></g>
           <rect x="77" y="54" width="164" height="202" rx="75" fill="#f6df24" transform="rotate(-9 159 155)" />
@@ -112,6 +147,23 @@ export default function Character() {
         </g>
         <g className="character-pencil">
           <g transform="translate(267 130) rotate(-65) scale(.75)"><Pencil /></g>
+        </g>
+        <g className="character-magnifier" stroke="#151515" strokeWidth="5" strokeLinecap="round">
+          <path d="m199 165 27 42" stroke="#f4f2e9" strokeWidth="13" />
+          <circle cx="181" cy="137" r="34" fill="#f4f2e9" fillOpacity=".8" />
+          <path d="M160 132q3-17 20-18" stroke="#fff" />
+          <path d="m204 184 15 21" stroke="#f6df24" strokeWidth="15" />
+        </g>
+        <g className="character-letter" stroke="#151515" strokeWidth="4" strokeLinejoin="round">
+          <path className="character-letter-paper" d="M110 210v-49h99v49" fill="#fffdf3" />
+          <path className="character-letter-paper" d="m143 185 10 10 22-22" fill="none" />
+          <rect x="99" y="201" width="123" height="75" rx="8" fill="#f4f2e9" />
+          <path d="m100 205 61 39 60-39m-120 68 42-35m77 35-42-35" fill="none" />
+        </g>
+        <g className="character-thought" fill="#f4f2e9" stroke="#151515" strokeWidth="3">
+          <circle cx="227" cy="67" r="5" /><circle cx="245" cy="49" r="9" />
+          <path d="M237 7q35-27 62 0v29h-62Z" />
+          <text x="257" y="28" stroke="none" fill="#151515" fontSize="29" fontFamily="monospace">?</text>
         </g>
         <g className="character-headphones" stroke="#151515" strokeWidth="7">
           <path d="M85 117C65 28 199 11 219 97" stroke="#f4f2e9" strokeWidth="13" />
@@ -132,7 +184,8 @@ export default function Character() {
         </g>
       </g>;
 
-  return <><button ref={characterRef} type="button" className={`character character-${action}`} aria-label="Animar al personaje: descubrir la siguiente sorpresa" aria-disabled={action !== 'idle'} onClick={perform} onPointerMove={look} onPointerLeave={resetLook}>
+  return <><div ref={homeRef} className="character character-home" aria-hidden="true" />
+  {createPortal(<div className="character-journey"><button ref={characterRef} type="button" className={`character character-actor character-${action}`} aria-label={`Animar al personaje: ${place === 'about' ? 'conocer su lado curioso' : place === 'contact' ? 'preparar una nueva idea' : 'descubrir la siguiente sorpresa'}`} aria-disabled={traveling || action !== 'idle'} onClick={perform} onPointerMove={look} onPointerLeave={resetLook}>
     <svg viewBox="0 0 320 350" fill="none" aria-hidden="true">
       <ellipse className="character-shadow" cx="163" cy="328" rx="80" ry="9" fill="currentColor" opacity=".12" />
       <g className="character-traveler">
@@ -143,9 +196,9 @@ export default function Character() {
       <g className="character-sparks" stroke="#f6df24" strokeWidth="5" strokeLinecap="round"><path d="M201 33L207 13M220 42L237 28M224 60L248 59"/></g>
       <g className="character-code-bits" fill="#f6df24" fontFamily="monospace" fontSize="22"><text x="22" y="92">{'{ }'}</text><text x="244" y="210">{'</>'}</text></g>
     </svg>
-    <span className="character-note" aria-live="polite">{caption}</span>
-    <span className="character-hint">{action === 'idle' ? 'TÓCAME · OTRA SORPRESA' : 'UN MOMENTICO…'} <span aria-hidden="true">↗</span></span>
-  </button>
+    <span className="character-note" aria-live="polite">{traveling ? '' : caption}</span>
+    <span className="character-hint">{action !== 'idle' ? 'UN MOMENTICO…' : place === 'about' ? 'TÓCAME · SOY TODO CURIOSIDAD' : place === 'contact' ? 'TÓCAME · TENGO UN MENSAJE' : 'TÓCAME · OTRA SORPRESA'} <span aria-hidden="true">↗</span></span>
+  </button></div>, document.body)}
   {rocketPeek && createPortal(<div className="character-peek-stage" aria-hidden="true">
     <div className="character-rocket-peek"><svg viewBox="0 0 320 350" fill="none">{actor}</svg></div>
   </div>, document.body)}
