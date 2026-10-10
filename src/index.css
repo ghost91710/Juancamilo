@@ -700,3 +700,39 @@ nav .nav-contact{border:none;
 .about-personality .about-sticker{display:grid;flex:none;margin:24px 0 0 15px}
 .about-personality .character-stop-about{margin:0 0 0 auto}
 @media(max-width:500px){.about-personality{gap:12px;margin-top:24px}.about-personality .about-sticker{margin-left:8px}}
+
+/* Keep contact readable on narrow screens and compact on short viewports. */
+.contact.section-wrap{padding-block:clamp(20px,4svh,40px)}
+.contact[id]{scroll-margin-top:0}
+.contact-top{flex-wrap:wrap;gap:10px 20px}
+.contact-title{gap:12px;margin-block:clamp(18px,4svh,48px)}
+.contact h2{min-width:0;font-size:clamp(32px,min(10vw,14svh),160px);line-height:1.08}
+.contact-arrow{flex:none;font-size:clamp(42px,min(13vw,18svh),200px)}
+.contact-bottom{flex-wrap:wrap;gap:20px 28px;padding-top:clamp(16px,3svh,25px);align-items:center}
+.contact-companion{flex:1 1 280px;min-width:0;justify-content:space-between}
+.contact-companion>p{min-width:0;overflow-wrap:anywhere}
+.character-stop-contact{width:clamp(100px,18svh,155px);margin-right:0}
+.contact-options{min-width:0;max-width:100%}
+.contact-whatsapp{max-width:100%;gap:16px}
+.contact-email{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:700px){
+  .contact h2{font-size:clamp(32px,min(12vw,11svh),72px)}
+  .contact-bottom{display:flex;flex-direction:column;align-items:stretch}
+  .contact-companion{flex:auto;gap:16px}
+  .character-stop-contact{width:clamp(90px,17svh,130px)}
+  .contact-options{align-items:flex-start;gap:12px;margin-top:0}
+  .contact-options .contact-email{margin-top:0;font-size:clamp(14px,4vw,20px)}
+}
+@media(max-height:500px) and (min-width:500px){
+  .contact.section-wrap{padding-block:12px}
+  .contact-title{margin-block:12px}
+  .contact h2{font-size:clamp(28px,10svh,48px)}
+  .contact-bottom{flex-direction:row;gap:12px 20px;padding-top:12px}
+  .contact-companion{flex:1 1 200px;gap:12px}
+  .contact-companion>p{font-size:11px}
+  .character-stop-contact{width:80px}
+  .character-stop-contact::after{height:70px}
+  .contact-options{gap:8px;justify-content:center}
+  .contact-whatsapp{padding:10px 14px;font-size:12px}
+  .contact-options .contact-email{font-size:14px}
+}
