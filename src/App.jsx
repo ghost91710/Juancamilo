@@ -49,8 +49,8 @@ function RotatingContactWord() {
 
   const word = contactWords[index];
   return <span className="contact-word-slot">
-    {contactWords.map((entry) => <span key={entry} className={`contact-word-measure${entry.length > 6 ? ' is-long' : ''}`} aria-hidden="true">{entry}.</span>)}
-    <em key={word} className={`contact-word${word.length > 6 ? ' contact-word-long' : ''}${index === 0 ? ' contact-word-initial' : ''}${leaving ? ' is-leaving' : ''}`}>{word}.</em>
+    {contactWords.map((entry) => <span key={entry} className="contact-word-measure" aria-hidden="true">{entry}.</span>)}
+    <em key={word} className={`contact-word contact-word-motion-${index % 3}${index === 0 ? ' contact-word-initial' : ''}${leaving ? ' is-leaving' : ''}`}>{word}.</em>
   </span>;
 }
 
@@ -150,7 +150,7 @@ export default function App() {
             <p>Mesa de ayuda y control de aplicativos institucionales · Armenia, Quindío</p>
           </article>
         </div><a className="pill outline" href={cv} download="CV_Juan_Camilo.pdf">Descargar mi CV <DownArrow /></a><div className="about-details"><span>MI ENFOQUE</span><p>Lógica y datos bien conectados.<br/>Calidad en cada detalle.<br/>Aprendizaje constante.</p></div></div></section>
-      <section className="contact section-wrap" id="contact"><div className="contact-top eyebrow"><span>03 / EL SIGUIENTE PASO</span><span>¿TIENES ALGO EN MENTE?</span></div><a className="contact-title" href="mailto:camilo9171@gmail.com" aria-label="Escribir a Juan Camilo por correo"><h2>Hagamos<br/>algo <RotatingContactWord /></h2><span className="contact-arrow"><Arrow /></span></a><div className="contact-bottom"><div className="contact-companion"><p>Una idea, un proyecto o una oportunidad.<br/>Me encantará saber de ti.</p><div className="character-stop character-stop-contact" data-character-stop="contact" aria-hidden="true" /></div><div className="contact-options">
+      <section className="contact section-wrap" id="contact"><div className="contact-top eyebrow"><span>03 / EL SIGUIENTE PASO</span><span>¿TIENES ALGO EN MENTE?</span></div><a className="contact-title" href="mailto:camilo9171@gmail.com" aria-label="Escribir a Juan Camilo por correo"><h2><span className="contact-heading-line">Hagamos algo</span><RotatingContactWord /></h2><span className="contact-arrow"><Arrow /></span></a><div className="contact-bottom"><div className="contact-companion"><p>Una idea, un proyecto o una oportunidad.<br/>Me encantará saber de ti.</p><div className="character-stop character-stop-contact" data-character-stop="contact" aria-hidden="true" /></div><div className="contact-options">
           <a className="contact-whatsapp" href="https://wa.me/573117863431" target="_blank" rel="noreferrer">Hablemos por WhatsApp <Arrow /></a>
           <a className="contact-email" href="mailto:camilo9171@gmail.com">camilo9171@gmail.com <Arrow /></a>
         </div></div></section>

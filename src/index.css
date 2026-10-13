@@ -470,16 +470,23 @@ nav .nav-contact{border:none;
 @media(max-width:360px){.experience-header{flex-wrap:wrap;gap:8px}}
 @media(max-width:360px){.navigation{height:auto;min-height:80px;padding:16px 0;flex-wrap:wrap;row-gap:16px}.navigation nav{width:100%;justify-content:space-between}.hero-bottom{min-height:380px}.character{width:125px;bottom:15px}.hero-copy p{max-width:100%}}
 
-.contact-word-slot{display:inline-grid;vertical-align:baseline;white-space:nowrap;align-items:baseline}
+.contact-heading-line{display:block;white-space:nowrap}
+.contact-word-slot{display:grid;white-space:nowrap;align-items:baseline;perspective:900px}
 .contact-word-measure,.contact-word{grid-area:1/1;white-space:nowrap}
 .contact-word-measure{visibility:hidden;font:italic 400 1em Georgia,serif}
-.contact-word-measure.is-long{font-size:.68em}
-.contact-word{display:inline-block;animation:contact-word-enter .45s cubic-bezier(.2,.8,.2,1) both}
-.contact-word-long{font-size:.68em}
+.contact-word{display:inline-block;font:italic 400 1em Georgia,serif;transform-origin:left center;animation:contact-word-enter .55s cubic-bezier(.2,.8,.2,1) both}
+.contact-word-motion-1{animation-name:contact-word-flip}
+.contact-word-motion-2{animation-name:contact-word-reveal}
 .contact-word-initial:not(.is-leaving){animation:none}
 .contact-word.is-leaving{animation:contact-word-exit .3s ease-in both}
+.contact-word-motion-1.is-leaving{animation-name:contact-word-fold}
+.contact-word-motion-2.is-leaving{animation-name:contact-word-wipe}
 @keyframes contact-word-enter{from{opacity:0;transform:translateY(.22em) rotate(2deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
 @keyframes contact-word-exit{from{opacity:1;transform:translateY(0) rotate(0)}to{opacity:0;transform:translateY(-.16em) rotate(-2deg)}}
+@keyframes contact-word-flip{from{opacity:0;transform:rotateX(-75deg) translateY(.12em)}to{opacity:1;transform:rotateX(0) translateY(0)}}
+@keyframes contact-word-fold{from{opacity:1;transform:rotateX(0)}to{opacity:0;transform:rotateX(65deg)}}
+@keyframes contact-word-reveal{from{opacity:0;clip-path:inset(-20% 100% -20% -5%);transform:translateX(-.12em)}to{opacity:1;clip-path:inset(-20% -5% -20% -5%);transform:translateX(0)}}
+@keyframes contact-word-wipe{from{opacity:1;clip-path:inset(-20% -5% -20% -5%)}to{opacity:0;clip-path:inset(-20% -5% -20% 100%)}}
 .software-word svg path{stroke-dasharray:900;stroke-dashoffset:900;animation:software-underline-draw .85s .15s ease-out forwards}
 @keyframes software-underline-draw{to{stroke-dashoffset:0}}
 @media(prefers-reduced-motion:reduce){.software-word svg path{stroke-dashoffset:0}}
@@ -489,7 +496,6 @@ nav .nav-contact{border:none;
 .project-context dt{padding-top:3px;font-family:monospace;font-size:9px;letter-spacing:.7px;color:var(--yellow)}
 .project-context dd{margin:0;color:#c0bfb2;font-size:12px;line-height:1.5}
 @media(max-width:500px){.project-context>div{grid-template-columns:68px 1fr;gap:8px}}
-@media(max-width:500px){.contact-word-measure.is-long,.contact-word-long{font-size:.55em}}
 
 
 /* The same motion language on touch, keyboard and pointer devices. */
@@ -706,8 +712,8 @@ nav .nav-contact{border:none;
 .contact[id]{scroll-margin-top:0}
 .contact-top{flex-wrap:wrap;gap:10px 20px}
 .contact-title{gap:12px;margin-block:clamp(18px,4svh,48px)}
-.contact h2{min-width:0;font-size:clamp(32px,min(10vw,14svh),160px);line-height:1.08}
-.contact-arrow{flex:none;font-size:clamp(42px,min(13vw,18svh),200px)}
+.contact h2{min-width:0;font-size:clamp(36px,12vw,180px);line-height:1.08}
+.contact-arrow{flex:none;font-size:clamp(32px,10vw,150px)}
 .contact-bottom{flex-wrap:wrap;gap:20px 28px;padding-top:clamp(16px,3svh,25px);align-items:center}
 .contact-companion{flex:1 1 280px;min-width:0;justify-content:space-between}
 .contact-companion>p{min-width:0;overflow-wrap:anywhere}
@@ -716,7 +722,7 @@ nav .nav-contact{border:none;
 .contact-whatsapp{max-width:100%;gap:16px}
 .contact-email{max-width:100%;overflow-wrap:anywhere}
 @media(max-width:700px){
-  .contact h2{font-size:clamp(32px,min(12vw,11svh),72px)}
+  .contact h2{font-size:clamp(32px,12vw,84px)}
   .contact-bottom{display:flex;flex-direction:column;align-items:stretch}
   .contact-companion{flex:auto;gap:16px}
   .character-stop-contact{width:clamp(90px,17svh,130px)}
@@ -726,7 +732,6 @@ nav .nav-contact{border:none;
 @media(max-height:500px) and (min-width:500px){
   .contact.section-wrap{padding-block:12px}
   .contact-title{margin-block:12px}
-  .contact h2{font-size:clamp(28px,10svh,48px)}
   .contact-bottom{flex-direction:row;gap:12px 20px;padding-top:12px}
   .contact-companion{flex:1 1 200px;gap:12px}
   .contact-companion>p{font-size:11px}
