@@ -7,11 +7,5 @@
       "destination": "https://camilogonzalez.dev/:path*",
       "permanent": true
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/servicios/:path*",
-      "destination": "/index.html"
-    }
   ]
 }
