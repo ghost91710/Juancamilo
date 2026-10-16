@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import Character from './components/Character';
-import Services from './components/Services';
 import videoStore from './assets/video1.1.mp4';
 import videoBudget from './assets/video2.1.mp4';
 import videoAuraverse from './assets/video-auraverse.mp4';
@@ -70,7 +69,7 @@ function Brand() {
 }
 
 
-function Portfolio() {
+export default function App() {
   const pageRef = useRef(null);
 
   useEffect(() => {
@@ -106,7 +105,7 @@ function Portfolio() {
     <a className="skip-link" href="#projects">Saltar a los proyectos</a>
     <header className="navigation">
       <Brand />
-      <nav aria-label="Navegación principal"><a href="#projects">Proyectos <span>{String(projects.length).padStart(2, '0')}</span></a><a href="#about">Sobre mí</a><a href="/servicios">Servicios</a><a className="nav-contact" href="#contact">Hablemos <Arrow /></a></nav>
+      <nav aria-label="Navegación principal"><a href="#projects">Proyectos <span>{String(projects.length).padStart(2, '0')}</span></a><a href="#about">Sobre mí</a><a className="nav-contact" href="#contact">Hablemos <Arrow /></a></nav>
     </header>
     <main ref={pageRef}>
       <section className="hero" id="inicio">
@@ -158,9 +157,4 @@ function Portfolio() {
     </main>
     <footer className="footer"><Brand /><p>DISEÑADO Y DESARROLLADO POR JUAN CAMILO.</p><div><a href="https://github.com/Juan-camilo-GM" target="_blank" rel="noreferrer">GitHub <Arrow /></a><a href="https://www.linkedin.com/in/juan-camilo-gonz%C3%A1lez-mu%C3%B1oz-a0855924b/" target="_blank" rel="noreferrer">LinkedIn <Arrow /></a><a href="https://wa.me/573117863431" target="_blank" rel="noreferrer">WhatsApp <Arrow /></a></div></footer>
   </>;
-}
-
-export default function App() {
-  const path = window.location.pathname.replace(/\/+$/, '') || '/';
-  return path === '/servicios' ? <Services /> : <Portfolio />;
 }
