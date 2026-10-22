@@ -22,7 +22,7 @@ const projects = [
     subtitle: "Gestión completa para minimercado",
     summary: "Aplicación web full-stack integral para la gestión eficiente de inventarios, proveedores y análisis de ventas en tiempo real. Incluye un catálogo público intuitivo que facilita las compras en línea y un módulo robusto para el registro preciso de ventas, todo envuelto en un diseño moderno, responsive y fácil de usar.",
     tech: ["React", "JavaScript", "Supabase", "Tailwind", "Nest.js"],
-    demo: "https://minimercadodemo-cmdr.vercel.app/",
+    demo: "https://minimarketdelcafe.vercel.app/admin/login",
     code: "https://github.com",
     video: video1,
   },
