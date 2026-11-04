@@ -688,7 +688,6 @@ nav .nav-contact{border:none;
 .character-actor[data-journey="exiting"] .character-note,.character-actor[data-journey="entering"] .character-note,.character-actor[data-journey="exiting"] .character-hint,.character-actor[data-journey="entering"] .character-hint{visibility:hidden}
 .character-actor[data-place="contact"] .character-note,.character-actor[data-place="contact"] .character-hint{color:#141414}
 .character-actor[data-place="contact"]:focus-visible{outline-color:#141414}
-.character-actor[data-place="contact"] :is(.character-left-arm,.character-right-arm){stroke:#151515}
 .character-magnifier,.character-letter,.character-thought{opacity:0;pointer-events:none}
 .character-idle[data-place="about"] .character-magnifier,.character-inspect .character-magnifier{opacity:1}
 .character-inspect .character-magnifier{animation:character-inspect 1.6s ease-in-out 2;transform-origin:181px 137px}

@@ -131,12 +131,25 @@ export default function Character() {
     characterRef.current.style.setProperty('--look-y', '0px');
   }
 
+  const leftArmPath = action === 'jump'
+    ? "M83 152Q48 151 47 111M47 111C34 112 31 103 35 94Q40 86 45 95Q48 83 54 88Q61 94 57 104Z"
+    : "M83 152Q35 175 44 221M46 216Q30 206 28 221L33 239M43 223L46 244M51 219L57 237";
+  const rightArmPath = action === 'jump'
+    ? "M231 151Q268 149 271 111M271 111C284 112 287 103 283 94Q278 86 273 95Q270 83 264 88Q257 94 261 104Z"
+    : "M231 151Q273 156 282 115M272 124L267 100M280 119L285 94M285 126L300 107";
+
   // Reuse the same artwork when peeking from the viewport edge.
   const actor = <g className="character-body">
         <g stroke="#151515" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
           <g className="character-legs" fill="#f6df24"><path className="character-leg-left" d="M123 242L115 295 83 304Q76 317 96 316L128 314 146 249" /><path className="character-leg-right" d="M189 243L206 297 237 305Q247 317 227 317L195 313 169 249" /></g>
-          <g className="character-left-arm" stroke="#f6df24"><path d={action === 'jump' ? "M83 152Q48 151 47 111M47 111C34 112 31 103 35 94Q40 86 45 95Q48 83 54 88Q61 94 57 104Z" : "M83 152Q35 175 44 221M46 216Q30 206 28 221L33 239M43 223L46 244M51 219L57 237"} /></g>
-          <g className="character-right-arm" stroke="#f6df24"><path d={action === 'jump' ? "M231 151Q268 149 271 111M271 111C284 112 287 103 283 94Q278 86 273 95Q270 83 264 88Q257 94 261 104Z" : "M231 151Q273 156 282 115M272 124L267 100M280 119L285 94M285 126L300 107"} /></g>
+          <g className="character-left-arm">
+            <path stroke="#151515" strokeWidth="13" d={leftArmPath} />
+            <path stroke="#f6df24" strokeWidth="7" d={leftArmPath} />
+          </g>
+          <g className="character-right-arm">
+            <path stroke="#151515" strokeWidth="13" d={rightArmPath} />
+            <path stroke="#f6df24" strokeWidth="7" d={rightArmPath} />
+          </g>
           <rect x="77" y="54" width="164" height="202" rx="75" fill="#f6df24" transform="rotate(-9 159 155)" />
           <path className="character-smile" d="M124 176Q151 199 179 169" />
         </g>
