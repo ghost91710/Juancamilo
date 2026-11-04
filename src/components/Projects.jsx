@@ -14,6 +14,7 @@ import { HiOutlineDesktopComputer } from "react-icons/hi";
 
 import video1 from "../assets/video1.1.mp4";
 import video2 from "../assets/video2.1.mp4";
+import videoBeatmaker from "../assets/video-beatmaker.mp4";
 
 const projects = [
   {
@@ -35,6 +36,16 @@ const projects = [
     demo: "https://appgastos-ten.vercel.app/",
     code: "https://github.com",
     video: video2,
+  },
+  {
+    id: "03",
+    title: "Beatmaker & Visualizer 3D",
+    subtitle: "Instrumento audiovisual interactivo",
+    summary: "Estudio de producción musical en el navegador con pads de percusión, sintetizador polifónico, transporte rítmico Web Audio y escenarios 3D WebGL reactivos al sonido en tiempo real con personaje animado sincronizado.",
+    tech: ["JavaScript", "Three.js", "Web Audio API", "WebGL", "CSS3"],
+    demo: "https://beatmaker-camilo.vercel.app",
+    code: "https://github.com/Juan-camilo-GM/beatmaker-camilo",
+    video: videoBeatmaker,
   },
 ];
 
