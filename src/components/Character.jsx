@@ -133,20 +133,22 @@ export default function Character() {
 
   const leftArmPath = action === 'jump'
     ? "M83 152Q48 151 47 111M47 111C34 112 31 103 35 94Q40 86 45 95Q48 83 54 88Q61 94 57 104Z"
-    : "M83 150 Q48 180 50 215 C42 216 36 224 40 234 C44 242 54 245 62 238 C68 232 68 220 62 214 Q60 185 89 158 Z";
+    : "M83 152Q35 175 44 221M46 216Q30 206 28 221L33 239M43 223L46 244M51 219L57 237";
   const rightArmPath = action === 'jump'
     ? "M231 151Q268 149 271 111M271 111C284 112 287 103 283 94Q278 86 273 95Q270 83 264 88Q257 94 261 104Z"
-    : "M231 151 Q260 150 274 125 C272 118 266 100 272 94 C278 88 284 94 286 102 C289 90 297 88 301 94 C305 100 301 108 299 114 C305 108 312 110 312 118 C312 126 302 134 290 135 Q270 162 236 159 Z";
+    : "M231 151Q273 156 282 115M272 124L267 100M280 119L285 94M285 126L300 107";
 
   // Reuse the same artwork when peeking from the viewport edge.
   const actor = <g className="character-body">
         <g stroke="#151515" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
           <g className="character-legs" fill="#f6df24"><path className="character-leg-left" d="M123 242L115 295 83 304Q76 317 96 316L128 314 146 249" /><path className="character-leg-right" d="M189 243L206 297 237 305Q247 317 227 317L195 313 169 249" /></g>
           <g className="character-left-arm">
-            <path stroke="#151515" strokeWidth="6" fill="#f6df24" d={leftArmPath} />
+            <path stroke="#151515" strokeWidth="13" d={leftArmPath} />
+            <path stroke="#f6df24" strokeWidth="7" d={leftArmPath} />
           </g>
           <g className="character-right-arm">
-            <path stroke="#151515" strokeWidth="6" fill="#f6df24" d={rightArmPath} />
+            <path stroke="#151515" strokeWidth="13" d={rightArmPath} />
+            <path stroke="#f6df24" strokeWidth="7" d={rightArmPath} />
           </g>
           <rect x="77" y="54" width="164" height="202" rx="75" fill="#f6df24" transform="rotate(-9 159 155)" />
           <path className="character-smile" d="M124 176Q151 199 179 169" />
@@ -165,25 +167,11 @@ export default function Character() {
           <path d="M160 132q3-17 20-18" stroke="#fff" />
           <path d="m204 184 15 21" stroke="#f6df24" strokeWidth="15" />
         </g>
-        <g className="character-letter" stroke="#151515" strokeLinejoin="round">
-          <g strokeWidth="4">
-            <path className="character-letter-paper" d="M110 210v-49h99v49" fill="#fffdf3" />
-            <path className="character-letter-paper" d="m143 185 10 10 22-22" fill="none" strokeLinecap="round" strokeWidth="4" />
-          </g>
-          <g strokeLinecap="round" fill="#f6df24" strokeWidth="6">
-            <path className="character-letter-arm-left" d="M81 150 C52 176 50 208 86 234 L96 234 C68 206 68 180 91 156 Z" />
-            <path className="character-letter-arm-right" d="M234 149 C264 176 266 208 230 234 L220 234 C248 206 248 180 225 155 Z" />
-          </g>
-          <g strokeWidth="4">
-            <rect x="99" y="201" width="123" height="75" rx="8" fill="#f4f2e9" />
-            <path d="m100 205 61 39 60-39m-120 68 42-35m77 35-42-35" fill="none" />
-          </g>
-          <g strokeLinecap="round" fill="#f6df24">
-            <path className="character-letter-hand-left" d="M86 230 C82 218 106 216 113 226 C117 234 114 243 104 246 C95 248 86 242 86 230 Z" strokeWidth="5.5" />
-            <path d="M104 224 C106 230 104 236 98 241" fill="none" strokeWidth="3.5" />
-            <path className="character-letter-hand-right" d="M232 230 C236 218 212 216 205 226 C201 234 204 243 214 246 C223 248 232 242 232 230 Z" strokeWidth="5.5" />
-            <path d="M214 224 C212 230 214 236 220 241" fill="none" strokeWidth="3.5" />
-          </g>
+        <g className="character-letter" stroke="#151515" strokeWidth="4" strokeLinejoin="round">
+          <path className="character-letter-paper" d="M110 210v-49h99v49" fill="#fffdf3" />
+          <path className="character-letter-paper" d="m143 185 10 10 22-22" fill="none" />
+          <rect x="99" y="201" width="123" height="75" rx="8" fill="#f4f2e9" />
+          <path d="m100 205 61 39 60-39m-120 68 42-35m77 35-42-35" fill="none" />
         </g>
         <g className="character-thought" fill="#f4f2e9" stroke="#151515" strokeWidth="3">
           <circle cx="227" cy="67" r="5" /><circle cx="245" cy="49" r="9" />

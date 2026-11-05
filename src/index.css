@@ -697,8 +697,7 @@ nav .nav-contact{border:none;
 .character-letter-paper{transform:translateY(30px)}
 .character-mail .character-letter-paper{animation:character-open-letter 3s ease-in-out both}
 .character-invite .character-right-arm{animation:character-invite .7s ease-in-out 4}
-.character-idle[data-place="about"] .character-right-arm,.character-inspect .character-right-arm{animation:none;transform:rotate(65deg)}
-.character-idle[data-place="contact"] :is(.character-left-arm,.character-right-arm),.character-mail :is(.character-left-arm,.character-right-arm){opacity:0;pointer-events:none}
+.character-idle[data-place="contact"] .character-right-arm,.character-idle[data-place="about"] .character-right-arm,.character-inspect .character-right-arm,.character-mail .character-right-arm{animation:none;transform:rotate(65deg)}
 .character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-traveler{transform:scaleX(var(--run-facing,1))}
 .character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-body{animation:character-running .3s ease-in-out infinite alternate}
 .character-actor:is([data-journey="exiting"],[data-journey="entering"]) .character-legs{animation:none;transform:none}
