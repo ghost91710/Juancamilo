@@ -142,13 +142,11 @@ export default function Character() {
   const actor = <g className="character-body">
         <g stroke="#151515" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
           <g className="character-legs" fill="#f6df24"><path className="character-leg-left" d="M123 242L115 295 83 304Q76 317 96 316L128 314 146 249" /><path className="character-leg-right" d="M189 243L206 297 237 305Q247 317 227 317L195 313 169 249" /></g>
-          <g className="character-left-arm">
-            <path stroke="#151515" strokeWidth="13" d={leftArmPath} />
-            <path stroke="#f6df24" strokeWidth="7" d={leftArmPath} />
+          <g className="character-left-arm" stroke="#f6df24">
+            <path d={leftArmPath} />
           </g>
-          <g className="character-right-arm">
-            <path stroke="#151515" strokeWidth="13" d={rightArmPath} />
-            <path stroke="#f6df24" strokeWidth="7" d={rightArmPath} />
+          <g className="character-right-arm" stroke="#f6df24">
+            <path d={rightArmPath} />
           </g>
           <rect x="77" y="54" width="164" height="202" rx="75" fill="#f6df24" transform="rotate(-9 159 155)" />
           <path className="character-smile" d="M124 176Q151 199 179 169" />
